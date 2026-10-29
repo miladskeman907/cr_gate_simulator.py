@@ -1,25 +1,20 @@
-# Transmon Two-Qubit Cross-Resonance (CR) Gate & Parasitic ZZ Simulator
+# Quantum Surface Code Decoder & Noise Simulator
 
-A quantum hardware simulation suite designed to model coupled superconducting transmon qubits, analyze Cross-Resonance (CR) gate dynamics, and calculate parasitic ZZ crosstalk interactions.
+A high-performance, research-grade quantum error correction (QEC) simulation pipeline implementing the rotated memory-Z surface code. This project leverages **Stim** for ultra-fast stabilizer circuit generation and detector error model extraction, combined with **PyMatching** for efficient Minimum-Weight Perfect Matching (MWPM) decoding.
 
-## 🔬 Theoretical Framework
+## 🔬 Core Features
+- **Surface Code Generation:** Builds standard rotated memory-Z surface code circuits for arbitrary code distances ($d$) and error rounds ($r$).
+- **Realistic Noise Injection:** Incorporates physical depolarizing noise after Clifford gates, bit-flips on resets, and measurement error probabilities.
+- **Detector Error Model (DEM):** Automatically extracts logical observables and detector error graphs for accurate decoding.
+- **MWPM Decoding Pipeline:** Utilizes PyMatching to process syndromes, predict logical errors, and compute the precise **Logical Failure Rate**.
 
-### 1. Coupled Transmon Hamiltonian
-The composite system of two transmon qubits coupled via a central bus/resonator is modeled in the basis of charge states including anharmonicity and coupling terms:
+## 🛠️ Simulation Workflow
+1. Circuit creation using `stim.Circuit.generated` with configurable noise parameters ($p$).
+2. Syndrome extraction and sampling via compiled detector samplers.
+3. Maximum-likelihood decoding via Minimum-Weight Perfect Matching (MWPM).
+4. Statistical evaluation of logical error rates across varying physical error rates.
 
-$$H_{sys} = \sum_{i=1}^{2} \left( \omega_i a_i^\dagger a_i + \frac{\alpha_i}{2} a_i^\dagger a_i^\dagger a_i a_i \right) + g (a_1 a_2^\dagger + a_1^\dagger a_2)$$
-
-### 2. Parasitic ZZ Crosstalk ($\zeta_{ZZ}$)
-Quantifies the unwanted static frequency shifts between qubits due to higher-level leakage and dispersive shifts:
-
-$$\zeta_{ZZ} \approx \frac{2 g^2 (\alpha_1 + \alpha_2)}{\Delta^2 - (\alpha_1 + \alpha_2)^2}$$
-
-Where $\Delta = \omega_1 - \omega_2$ is the qubit-qubit detuning.
-
-## 🛠️ Tech Stack
-* **Python**
-* **NumPy & SciPy** (Matrix diagonalization, tensor products, & analytical approximations)
-* **Matplotlib** (Crosstalk and Hamiltonian spectrum visualization)
-
-## 📄 License
-This project is open-source under the [MIT License](LICENSE).
+## 🚀 Quick Start
+Run the surface code simulation pipeline locally:
+```bash
+python decoder.py
